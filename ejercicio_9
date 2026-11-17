@@ -1,0 +1,67 @@
+from pathlib import Path
+from ejercicio_1 import Receta
+from ejercicio_2 import LibroRecetas
+
+class ArchivoInvalidoError(Exception):
+    pass
+
+
+def leer_filas_csv(ruta, encabezado_esperado):
+    ruta = Path(ruta)
+    if not ruta.exists():
+        raise ArchivoInvalidoError(f"No existe el archivo: {ruta}")
+
+    with ruta.open("r", encoding="utf-8") as archivo:
+        primera = archivo.readline().strip()
+        # ERROR SUTIL: solo verifica que no este vacia, pero no valida que el encabezado coincida
+        if not primera:
+            raise ArchivoInvalidoError("Archivo vacio o sin encabezado")
+
+        filas = []
+        for linea in archivo:
+            linea = linea.strip()
+            if not linea:
+                continue
+            valores = linea.split(",")
+            if len(valores) != len(encabezado_esperado):
+                raise ArchivoInvalidoError("Cantidad de columnas incorrecta")
+            filas.append(valores)
+        return filas
+
+
+def guardar_recetas_csv(ruta, libro):
+    lineas = ["id,nombre,tiempo_min,dificultad,categoria"]
+    for r in libro.listar():
+        lineas.append(f"{r.id},{r.nombre},{r.tiempo_min},{r.dificultad},{r.categoria}")
+    Path(ruta).write_text("\n".join(lineas) + "\n", encoding="utf-8")
+
+
+def cargar_recetas_csv(ruta):
+    libro = LibroRecetas()
+    for v in leer_filas_csv(ruta, ["id", "nombre", "tiempo_min", "dificultad", "categoria"]):
+        try:
+            libro.agregar(Receta(int(v[0]), v[1], int(v[2]), v[3], v[4]))
+        except ValueError:
+            raise ArchivoInvalidoError("Error numerico en recetas")
+    return libro
+
+
+def guardar_ingredientes_csv(ruta, ingredientes):
+    lineas = ["receta_id,nombre,cantidad,unidad"]
+    for receta_id, nombre, cantidad, unidad in ingredientes:
+        lineas.append(f"{receta_id},{nombre},{cantidad},{unidad}")
+    Path(ruta).write_text("\n".join(lineas) + "\n", encoding="utf-8")
+
+
+def cargar_ingredientes_csv(ruta):
+    ingredientes = []
+    for v in leer_filas_csv(ruta, ["receta_id", "nombre", "cantidad", "unidad"]):
+        try:
+            cantidad = float(v[2]) if "." in v[2] else int(v[2])
+            ingredientes.append((int(v[0]), v[1], cantidad, v[3]))
+        except ValueError:
+            raise ArchivoInvalidoError("Error numerico en ingredientes")
+    return ingredientes
+
+
+#TEORIA: Si, hace falta leer los anteriores porque los registros en un archivo CSV tienen longitud variable segun el largo de sus textos, por lo que el acceso es secuencial.

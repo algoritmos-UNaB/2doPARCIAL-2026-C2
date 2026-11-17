@@ -1,0 +1,29 @@
+from ejercicio_1 import Receta
+
+class RecetaNoEncontrada(Exception):
+    pass
+
+class LibroRecetas:
+    def __init__(self):
+        self.recetas = []
+
+    def agregar(self, receta):
+        for i in range(len(self.recetas)):
+            if self.recetas[i].id == receta.id:
+                self.recetas[i] = receta
+                return
+        self.recetas.append(receta)
+
+    def obtener(self, id):
+        for receta in self.recetas:
+            if receta.id == id:
+                return receta
+        raise RecetaNoEncontrada(f"No se encontro la receta con id: {id}")
+
+    def listar(self):
+        return list(self.recetas)
+
+    def cantidad(self):
+        return len(self.recetas)
+
+#TEORIA: Quien llama al metodo gana la garantia de recibir siempre una instancia valida de receta sin tener que validar manualmente si el retorno es None, evitando errores silenciosos o fallos posteriores como AttributeError.

@@ -1,0 +1,34 @@
+from ejercicio_2 import RecetaNoEncontrada
+
+class SubrecetaFaltanteError(Exception):
+    pass
+
+class IngredienteFaltanteError(Exception):
+    pass
+
+def ingredientes_totales(receta_id, libro, subrecetas, ingredientes):
+
+    libro.obtener(receta_id)
+    resultado = []
+
+    for r_id, nombre, cantidad, unidad in ingredientes:
+        if r_id == receta_id:
+            if not nombre or not str(nombre).strip():
+                raise IngredienteFaltanteError(f"Ingrediente sin nombre en receta {receta_id}")
+            resultado.append((nombre, cantidad, unidad))
+
+    for r_id, sub_id in subrecetas:
+        if r_id == receta_id:
+            try:
+                libro.obtener(sub_id)
+            except RecetaNoEncontrada:
+                raise SubrecetaFaltanteError(f"No se encontro la sub-receta con id {sub_id}")
+
+            resultado.extend(ingredientes_totales(sub_id, libro, subrecetas, ingredientes))
+
+    return resultado
+
+#TEORIA: Traza de llamados para ingredientes_totales:
+# 1. ingredientes_totales(9)= expande ingredientes de 9 y recorre sus sub-recetas (1, 2)
+# 2.  ingredientes_totales(1)= caso base (sin sub-recetas), devuelve ingredientes de 1
+# 3.  ingredientes_totales(2)= caso base (sin sub-recetas), devuelve ingredientes de 2

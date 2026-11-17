@@ -1,0 +1,41 @@
+def busqueda_lineal(recetas, ingredientes, campo, valor):
+    coincidencias = []
+
+    for receta in recetas:
+        if campo == "nombre":
+            if receta.nombre == valor:
+                coincidencias.append(receta)
+        elif campo == "categoria":
+            if receta.categoria == valor:
+                coincidencias.append(receta)
+        elif campo == "ingrediente":
+            for r_id, nom_ing, _, _ in ingredientes:
+                if r_id == receta.id and nom_ing == valor:
+                    coincidencias.append(receta)
+                    break
+
+    return coincidencias
+
+
+def busqueda_binaria(recetas, campo, valor):
+    if campo != "nombre":
+        raise ValueError(f"Campo no soportado para busqueda binaria: {campo}")
+
+    izq = 0
+    der = len(recetas) - 1
+
+    while izq <= der:
+        medio = (izq + der) // 2
+        actual = recetas[medio]
+
+        if actual.nombre == valor:
+            return actual
+        elif actual.nombre < valor:
+            izq = medio + 1
+        else:
+            der = medio - 1
+
+    return None
+
+#TEORIA: No, el resultado no es confiable porque la busqueda binaria descarta mitades asumiendo que los elementos estan ordenados segun el criterio de busqueda (nombre), y si estan ordenados por tiempo puede descartar la mitad donde realmente se encuentra el nombre buscado.
+

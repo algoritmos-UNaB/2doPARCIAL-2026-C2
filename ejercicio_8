@@ -1,0 +1,40 @@
+Orden_Dificultad = {
+    "baja": 1,
+    "media": 2,
+    "alta": 3,
+}
+
+
+def valor_campo(receta, campo):
+    if campo == "tiempo":
+        return receta.tiempo_min
+    return Orden_Dificultad[receta.dificultad]
+
+
+def ordenar_seleccion(recetas, campo, descendente=False):
+    n = len(recetas)
+    for i in range(n - 1):
+        pos_menor = i
+        for j in range(i + 1, n):
+            if valor_campo(recetas[j], campo) < valor_campo(recetas[pos_menor], campo):
+                pos_menor = j
+        recetas[i], recetas[pos_menor] = recetas[pos_menor], recetas[i]
+
+    if descendente:
+        recetas.reverse()
+
+    return recetas
+
+
+def ordenar_insercion(recetas, campo, descendente=False):
+    for i in range(1, len(recetas)):
+        actual = recetas[i]
+        j = i - 1
+        while j >= 0 and valor_campo(recetas[j], campo) > valor_campo(actual, campo):
+            recetas[j + 1] = recetas[j]
+            j -= 1
+        recetas[j + 1] = actual
+
+    return recetas
+
+#TEORIA: El estable es insercion. Un algoritmo es estable cuando dos elementos empatan tienen el mismo valor o clave por el que se ordena, mantienen el mismo orden en el que estaban al principio.
