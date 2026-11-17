@@ -268,3 +268,4 @@ def actualizar_registro(ruta, posicion, cancion): ...
 `posicion` es 0-based. `actualizar_registro` escribe un solo registro en su lugar (`seek`) y no reescribe el resto del archivo. Lanza `ArchivoInvalidoError` si la magia no es `AYED`, si el tema no es `M`, si el archivo no cierra justo en `9 + cantidad * 144` bytes, o si `posicion` está fuera de rango.
 
 **Teoría.** Escribir la fórmula del byte donde empieza el registro de posición `k`. Usar el tamaño del encabezado y el tamaño del registro.
+ 
