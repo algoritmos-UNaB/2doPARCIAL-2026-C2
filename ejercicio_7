@@ -38,4 +38,3 @@ def busqueda_binaria(recetas, campo, valor):
     return None
 
 #TEORIA: No, el resultado no es confiable porque la busqueda binaria descarta mitades asumiendo que los elementos estan ordenados segun el criterio de busqueda (nombre), y si estan ordenados por tiempo puede descartar la mitad donde realmente se encuentra el nombre buscado.
-
