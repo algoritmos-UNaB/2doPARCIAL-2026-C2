@@ -1,6 +1,6 @@
 # ejercicio_06.py
 
-from ejercicio_04 import ListaEnlazada, Cancion, CancionNoEncontradaError
+from ejercicio4 import ListaEnlazada, Cancion, CancionNoEncontradaError
 
 
 class ColaVaciaError(Exception):
