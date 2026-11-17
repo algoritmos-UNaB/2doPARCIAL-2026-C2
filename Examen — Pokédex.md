@@ -10,16 +10,9 @@ Cada ejercicio corresponde a una fila del mapa del dominio de la consigna (secci
 
 
 
-
-
-
-
-
-
-
 ## Condiciones
 
-- Un archivo por ejercicio: `ejercicio_01.py` … `ejercicio_10.py`. Los ejercicios posteriores pueden importar los anteriores.
+- Un archivo por ejercicio: `ejercicio_01.py` … `ejercicio_10.py`. Los ejercicios posteriores pueden importar los anteriores
 - La pregunta teórica se responde en el mismo archivo, en un comentario que empiece con `# TEORIA`.
 - Biblioteca estándar de Python. En búsqueda y ordenamiento no se aceptan `sorted`, `list.sort` ni `bisect`.
 - `Pila` y `Cola` se apoyan en `ListaEnlazada`. Un `list` de Python como almacenamiento de esos TAD no cumple el ejercicio.
