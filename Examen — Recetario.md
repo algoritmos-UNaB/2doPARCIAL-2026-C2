@@ -301,3 +301,4 @@ Los ingredientes no entran en este binario.
 ### Pregunta teórica
 
 `actualizar_registro` cambia una receta sin reescribir el archivo entero. ¿Qué dato del layout permite calcular el byte donde empieza ese registro?
+hola
