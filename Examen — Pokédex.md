@@ -8,6 +8,15 @@
 
 Cada ejercicio corresponde a una fila del mapa del dominio de la consigna (sección 2). Las excepciones no tienen ejercicio propio: se implementan en el ejercicio donde el dominio las necesita.
 
+
+
+
+
+
+
+
+
+
 ## Condiciones
 
 - Un archivo por ejercicio: `ejercicio_01.py` … `ejercicio_10.py`. Los ejercicios posteriores pueden importar los anteriores.
@@ -269,3 +278,13 @@ Registro, 56 bytes: `"<I20s12s12s4H"`
 ### Pregunta teórica
 
 `actualizar_registro` cambia un Pokémon sin reescribir el archivo entero. ¿Qué dato del layout permite calcular el byte donde empieza ese registro?
+     
+
+
+
+      
+
+
+
+
+
