@@ -1,4 +1,4 @@
-from ejercicio_2 import RecetaNoEncontrada
+from ejercicio_02 import RecetaNoEncontrada
 
 
 class SubrecetaFaltanteError(Exception):

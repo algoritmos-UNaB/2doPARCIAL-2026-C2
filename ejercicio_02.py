@@ -1,4 +1,4 @@
-from ejercicio_1 import Receta
+from ejercicio_01 import Receta
 
 
 class RecetaNoEncontrada(Exception):

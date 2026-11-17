@@ -1,7 +1,7 @@
 import csv
 
-from ejercicio_1 import Receta
-from ejercicio_2 import LibroRecetas
+from ejercicio_01 import Receta
+from ejercicio_02 import LibroRecetas
 
 
 class ArchivoInvalidoError(Exception):

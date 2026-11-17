@@ -1,9 +1,9 @@
 import struct
 import os
 
-from ejercicio_1 import Receta
-from ejercicio_2 import LibroRecetas
-from ejercicio_9 import ArchivoInvalidoError
+from ejercicio_01 import Receta
+from ejercicio_02 import LibroRecetas
+from ejercicio_09 import ArchivoInvalidoError
 
 
 FORMATO_ENCABEZADO = "<4scI"

@@ -1,4 +1,4 @@
-from ejercicio_4 import ListaEnlazada
+from ejercicio_04 import ListaEnlazada
 
 
 class ColaVaciaError(Exception):
