@@ -1,0 +1,44 @@
+
+def obtener_valor_campo(pokemon, campo):
+    if campo == "ataque":
+        return pokemon.ataque
+    elif campo == "velocidad":
+        return pokemon.velocidad
+    elif campo == "nro":
+        return pokemon.id
+    return 0
+
+def ordenar_seleccion(pokemones, campo, descendiente=False):
+    n = len(pokemones)
+    for i in range(n):
+        extremo = i
+        for j in range(i + 1, n):
+            val_j = obtener_valor_campo(pokemones[j], campo)
+            val_extremo = obtener_valor_campo(pokemones[extremo], campo)
+            
+            if descendiente:
+                if val_j > val_extremo:
+                    extremo = j
+            else:
+                if val_j < val_extremo:
+                    extremo = j
+        if extremo != i:
+            pokemones[i], pokemones[extremo] = pokemones[extremo], pokemones[i]
+    return pokemones
+
+def ordenar_insercion(pokemones, campo, descendiente=False):
+    for i in range(1, len(pokemones)):
+        actual = pokemones[i]
+        val_actual = obtener_valor_campo(actual, campo)
+        j = i - 1
+        
+        while j >= 0:
+            val_j = obtener_valor_campo(pokemones[j], campo)
+            condicion = (val_j < val_actual) if descendiente else (val_j > val_actual)
+            if condicion:
+                pokemones[j + 1] = pokemones[j]
+                j -= 1
+            else:
+                break
+        pokemones[j + 1] = actual
+    return pokemones

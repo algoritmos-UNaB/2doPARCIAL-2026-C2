@@ -1,0 +1,87 @@
+
+FORMATO_ENCABEZADO = "<4scI" # 4s (magia), c (tema), I (cantidad)
+FORMATO_REGISTRO = "<I20s12s12s4H" # id, nombre(20s), tipo1(12s), tipo2(12s), hp, ataque, defensa, velocidad (4 H)
+
+TAMAÑO_ENCABEZADO = struct.calcsize(FORMATO_ENCABEZADO)
+TAMAÑO_REGISTRO = struct.calcsize(FORMATO_REGISTRO)
+
+def guardar_binario(ruta, pokedex):
+    with open(ruta, "wb") as f:
+        f.write(struct.pack(FORMATO_ENCABEZADO, b"AYED", b"P", pokedex.cantidad()))
+        for p in pokedex.listar():
+            nombre_bytes = p.nombre.encode("utf-8")[:20].ljust(20, b"\0")
+            tipo1_bytes = p.tipo1.encode("utf-8")[:12].ljust(12, b"\0")
+            tipo2_bytes = (p.tipo2 if p.tipo2 else "").encode("utf-8")[:12].ljust(12, b"\0")
+            
+            registro = struct.pack(
+                FORMATO_REGISTRO,
+                p.id,
+                nombre_bytes,
+                tipo1_bytes,
+                tipo2_bytes,
+                p.hp,
+                p.ataque,
+                p.defensa,
+                p.velocidad
+            )
+            f.write(registro)
+
+def cargar_binario(ruta):
+    pokedex = Pokedex()
+    try:
+        with open(ruta, "rb") as f:
+            cabecera_bytes = f.read(TAMAÑO_ENCABEZADO)
+            if len(cabecera_bytes) < TAMAÑO_ENCABEZADO:
+                raise ArchivoInvalidoError("Archivo binario demasiado corto.")
+            
+            magia, tema, cantidad = struct.unpack(FORMATO_ENCABEZADO, cabecera_bytes)
+            if magia != b"AYED":
+                raise ArchivoInvalidoError("Magia distintiva inválida.")
+            
+            for _ in range(cantidad):
+                reg_bytes = f.read(TAMAÑO_REGISTRO)
+                if len(reg_bytes) < TAMAÑO_REGISTRO:
+                    break
+                id_p, nombre_b, tipo1_b, tipo2_b, hp, atk, defs, vel = struct.unpack(FORMATO_REGISTRO, reg_bytes)
+                
+                nombre = nombre_b.rstrip(b"\0").decode("utf-8")
+                tipo1 = tipo1_b.rstrip(b"\0").decode("utf-8")
+                tipo2 = tipo2_b.rstrip(b"\0").decode("utf-8")
+                
+                p = Pokémon(id=id_p, nombre=nombre, tipo1=tipo1, tipo2=tipo2, hp=hp, ataque=atk, defensa=defs, velocidad=vel, generacion=1)
+                pokedex.agregar(p)
+    except FileNotFoundError:
+        raise ArchivoInvalidoError("No se encontró el archivo binario.")
+    return pokedex
+
+def actualizar_registro(ruta, posicion, pokemon):
+    try:
+        with open(ruta, "r+b") as f:
+            f.seek(0, 2)
+            tam_archivo = f.tell()
+            
+            byte_inicio = TAMAÑO_ENCABEZADO + (posicion * TAMAÑO_REGISTRO)
+            if byte_inicio + TAMAÑO_REGISTRO > tam_archivo or posicion < 0:
+                raise ArchivoInvalidoError("Posición fuera de rango.")
+            
+            f.seek(0)
+            cabecera_bytes = f.read(TAMAÑO_ENCABEZADO)
+            magia, _, _ = struct.unpack(FORMATO_ENCABEZADO, cabecera_bytes)
+            if magia != b"AYED":
+                raise ArchivoInvalidoError("Magia distintiva inválida.")
+            
+            f.seek(byte_inicio)
+            nombre_bytes = pokemon.nombre.encode("utf-8")[:20].ljust(20, b"\0")
+            tipo1_bytes = pokemon.tipo1.encode("utf-8")[:12].ljust(12, b"\0")
+            tipo2_bytes = (pokemon.tipo2 if pokemon.tipo2 else "").encode("utf-8")[:12].ljust(12, b"\0")
+            
+            registro = struct.pack(
+                FORMATO_REGISTRO,
+                pokemon.id,
+                nombre_bytes,
+                tipo1_bytes,
+                tipo2_bytes,
+                pokemon.hp,
+                pokemon.ataque,
+                pokemon.defensa,
+                pokemon.velocidad

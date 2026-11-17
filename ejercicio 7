@@ -1,0 +1,38 @@
+
+def busqueda_lineal(pokemones, campo, valor):
+    resultado = []
+    for p in pokemones:
+        if campo == "nombre":
+            if p.nombre.lower() == valor.lower():
+                resultado.append(p)
+        elif campo == "tipo":
+            if (p.tipo1 and p.tipo1.lower() == valor.lower()) or (p.tipo2 and p.tipo2.lower() == valor.lower()):
+                resultado.append(p)
+        elif campo == "nro":
+            if p.id == valor:
+                resultado.append(p)
+    return resultado
+
+def busqueda_binaria(pokemones, campo, valor):
+    inicio = 0
+    fin = len(pokemones) - 1
+
+    while inicio <= fin:
+        medio = (inicio + fin) // 2
+        p = pokemones[medio]
+        
+        if campo == "nombre":
+            actual_val = p.nombre
+        elif campo == "nro":
+            actual_val = p.id
+        else:
+            actual_val = None
+
+        if actual_val == valor:
+            return p
+        elif actual_val < valor:
+            inicio = medio + 1
+        else:
+            fin = medio - 1
+            
+    return None

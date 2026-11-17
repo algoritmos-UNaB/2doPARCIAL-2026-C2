@@ -1,0 +1,28 @@
+class PokémonNoEncontrado(Excepcion):
+    pass
+
+class Pokedex:
+    def __init__(self):
+        self._pokemones = []
+
+    def agregar(self, pokemon):
+        # Si el id ya estaba, reemplaza ese objeto
+        for i, p in enumerate(self._pokemones):
+            if p.id == pokemon.id:
+                self._pokemones[i] = pokemon
+                return
+        self._pokemones.append(pokemon)
+
+    def obtener(self, id):
+        # Devuelve el Pokémon o lanza la excepción si no está
+        for p in self._pokemones:
+            if p.id == id:
+                return p
+        raise PokémonNoEncontrado(f"No se encontró el Pokémon con id {id}")
+
+    def listar(self):
+        # Devuelve los Pokémon en el orden en que se cargaron
+        return self._pokemones
+
+    def cantidad(self):
+        return len(self._pokemones)

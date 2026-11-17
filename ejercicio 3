@@ -1,0 +1,22 @@
+
+def descendientes(origen_id, pokedex, aristas):
+    try:
+        pokedex.obtener(origen_id)
+    except PokémonNoEncontrado:
+        raise PokémonNoEncontrado(f"El Pokémon de origen {origen_id} no se encuentra en la Pokedex.")
+
+    resultado = []
+    
+    for origen, destino in aristas:
+        if origen == origen_id:
+            # Verificamos que el destino también exista en la Pokedex
+            try:
+                pokedex.obtener(destino)
+            except PokémonNoEncontrado:
+                raise PokémonNoEncontrado(f"El Pokémon destino {destino} no se encuentra en la Pokedex.")
+          
+            resultado.append(destino)
+            sub_descendientes = descendientes(destino, pokedex, aristas)
+            resultado.extend(sub_descendientes)
+            
+    return resultado
