@@ -8,6 +8,7 @@
 
 Cada ejercicio corresponde a una fila del mapa del dominio de la consigna (sección 2). Las excepciones no tienen ejercicio propio: se implementan en el ejercicio donde el dominio las necesita.
 
+
 ## Condiciones
 
 - Un archivo por ejercicio: `ejercicio_01.py` … `ejercicio_10.py`. Los ejercicios posteriores pueden importar los anteriores.
