@@ -272,3 +272,6 @@ Registro, 56 bytes: `"<I20s12s12s4H"`
 ### Pregunta teórica
 
 `actualizar_registro` cambia un Pokémon sin reescribir el archivo entero. ¿Qué dato del layout permite calcular el byte donde empieza ese registro?
+
+
+
