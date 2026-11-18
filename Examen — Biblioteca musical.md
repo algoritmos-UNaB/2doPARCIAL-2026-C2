@@ -1,5 +1,7 @@
 # Examen — Biblioteca musical
 
+** ESTUDIANTE: ROMAN TUDDA**
+
 **Cátedra:** 00184 — Algoritmos y Estructuras de Datos  
 **Cuatrimestre:** C2 2026  
 **Tema:** Biblioteca musical  
@@ -18,7 +20,7 @@ Entregar un archivo por ejercicio: `ejercicio_01.py` … `ejercicio_10.py`. La r
 - Búsqueda y ordenamiento se escriben a mano. `list.sort`, `sorted` y `bisect` no se toman como resolución de los ejercicios 7 y 8.
 - Cada excepción es una clase propia que hereda de `Exception`, con un mensaje que explique el caso. Un `except:` sin tipo no cuenta.
 - Los métodos devuelven un valor o lanzan la excepción. Avisar solo con `print` no reemplaza el `return` ni el `raise`.
-- Se asume que las versiones no forman ciclos.
+- Se asume que las versiones no forman ciclos. 
 
 ## Datos de prueba
 
