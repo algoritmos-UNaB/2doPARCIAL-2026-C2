@@ -62,6 +62,8 @@ Versiones (`cancion_id` es una versión de `version_de_id`, con un tipo):
 
 ---
 
+
+
 ## Ejercicio 1 — Canción (8 pts)
 
 Definir la clase `Cancion`.
