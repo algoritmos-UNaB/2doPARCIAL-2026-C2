@@ -1,5 +1,7 @@
 ## Ejercicio 4 — Playlist sobre lista enlazada (14 pts)
 
+from ejercicio2 import Cancion, CancionNoEncontradaError
+
 class Nodo:
     def __init__(self, dato, siguiente=None):
         self.dato = dato
