@@ -1,0 +1,55 @@
+import csv
+
+from ejercicio_01 import Pokemon
+from ejercicio_02 import Pokedex
+
+
+class ArchivoInvalidoError(Exception):
+    pass
+
+
+ENCABEZADO = ["id", "nombre", "tipo1", "tipo2", "hp", "ataque", "defensa",
+              "velocidad", "generacion"]
+
+
+def guardar_csv(ruta, pokedex):
+    with open(ruta, "w", newline="", encoding="utf-8") as f:
+        escritor = csv.writer(f)
+        escritor.writerow(ENCABEZADO)
+        for p in pokedex.listar():
+            escritor.writerow([p.id, p.nombre, p.tipo1, p.tipo2, p.hp,
+                               p.ataque, p.defensa, p.velocidad, p.generacion])
+
+
+def cargar_csv(ruta):
+    pokedex = Pokedex()
+    try:
+        with open(ruta, "r", newline="", encoding="utf-8") as f:
+            lector = csv.reader(f)
+            try:
+                encabezado = next(lector)
+            except StopIteration:
+                raise ArchivoInvalidoError("El archivo esta vacio (sin encabezado)")
+            if encabezado != ENCABEZADO:
+                raise ArchivoInvalidoError("El archivo no tiene el encabezado esperado")
+            for fila in lector:
+                if not fila:  
+                    continue
+                if len(fila) != 9:
+                    raise ArchivoInvalidoError(
+                        f"Fila con {len(fila)} columnas, se esperaban 9")
+                try:
+                    pokemon = Pokemon(int(fila[0]), fila[1], fila[2], fila[3],
+                                      int(fila[4]), int(fila[5]), int(fila[6]),
+                                      int(fila[7]), int(fila[8]))
+                except ValueError:
+                    raise ArchivoInvalidoError(f"Numero invalido en la fila {fila}")
+                pokedex.agregar(pokemon)
+    except UnicodeDecodeError:
+        raise ArchivoInvalidoError("El archivo no es UTF-8 valido")
+    return pokedex
+
+
+# Si, hace falta leer los anteriores en un CSV las filas tienen largo
+# variable, asi que no se puede saltar directo al registro 10 el acceso es
+# secuencial.

@@ -1,0 +1,31 @@
+class PokemonNoEncontrado(Exception):
+    pass
+
+
+class Pokedex:
+    def __init__(self):
+        self._pokemones = []
+
+    def agregar(self, pokemon):
+        """Agrega el Pokemon; si el id ya estaba, reemplaza ese objeto."""
+        for i in range(len(self._pokemones)):
+            if self._pokemones[i].id == pokemon.id:
+                self._pokemones[i] = pokemon
+                return
+        self._pokemones.append(pokemon)
+
+    def obtener(self, id):
+        for p in self._pokemones:
+            if p.id == id:
+                return p
+        raise PokemonNoEncontrado(f"No existe el Pokemon con id {id}")
+
+    def listar(self):
+        return list(self._pokemones)
+
+    def cantidad(self):
+        return len(self._pokemones)
+
+
+# Quien llama no tiene que acordarse de chequear un None (que si se olvida explota mas adelante con un error confuso) 
+# El fallo es explicito, no puede ignorarse por accidente y se maneja con try o except donde corresponda.

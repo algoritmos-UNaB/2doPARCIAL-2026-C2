@@ -1,0 +1,43 @@
+def _valor(pokemon, campo):
+    if campo == "nombre":
+        return pokemon.nombre
+    if campo == "nro":
+        return pokemon.id
+    raise ValueError(f"Campo no soportado: {campo}")
+
+
+def busqueda_lineal(pokemones, campo, valor):
+    """Lista de coincidencias, en el orden recibido ([] si no hay)."""
+    if campo not in ("nombre", "tipo", "nro"):
+        raise ValueError(f"Campo no soportado: {campo}")
+    resultado = []
+    for p in pokemones:
+        if campo == "tipo":
+            coincide = p.tipo1 == valor or p.tipo2 == valor
+        else:
+            coincide = _valor(p, campo) == valor
+        if coincide:
+            resultado.append(p)
+    return resultado
+
+
+def busqueda_binaria(pokemones, campo, valor):
+    """Pokemon o None. La lista debe estar ordenada de menor a mayor por campo."""
+    if campo not in ("nombre", "nro"):
+        raise ValueError(f"Campo no soportado: {campo}")
+    izq = 0
+    der = len(pokemones) - 1
+    while izq <= der:
+        medio = (izq + der) // 2
+        actual = _valor(pokemones[medio], campo)
+        if actual == valor:
+            return pokemones[medio]
+        if actual < valor:
+            izq = medio + 1
+        else:
+            der = medio - 1
+    return None
+
+
+# la busqueda binaria descarta la mitad de la lista suponiendo que esta ordenada por el campo buscado si esta ordenada por ataque, puede
+# descartar la mitad donde estaba el nombre y devolver None aunque exista.

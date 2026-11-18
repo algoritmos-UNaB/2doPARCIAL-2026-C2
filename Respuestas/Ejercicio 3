@@ -1,0 +1,22 @@
+from ejercicio_02 import PokemonNoEncontrado
+
+
+def descendientes(origen_id, pokedex, aristas):
+    """Ids alcanzables desde origen_id (sin incluirlo), en profundidad."""
+    pokedex.obtener(origen_id)
+    resultado = []
+    for origen, destino in aristas:
+        if origen == origen_id:
+            pokedex.obtener(destino)
+            resultado.append(destino)
+            resultado.extend(descendientes(destino, pokedex, aristas))
+    return resultado
+
+
+# Traza de descendientes(4) con las aristas (4, 5) y (5, 6):
+#   descendientes(4)   entra primero; encuentra (4, 5): agrega 5 y expande 5
+#     descendientes(5) entra segundo; encuentra (5, 6): agrega 6 y expande 6
+#       descendientes(6) entra tercero; no hay destinos va a caso base, devuelve []
+#     descendientes(5) devuelve [6]
+#   descendientes(4) devuelve [5, 6]
+# Orden de entrada de los argumentos: 4, 5, 6.

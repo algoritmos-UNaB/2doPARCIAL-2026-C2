@@ -1,0 +1,43 @@
+from ejercicio_04 import ListaEnlazada
+
+
+class ColaVaciaError(Exception):
+    pass
+
+
+class Cola:
+    def __init__(self):
+        self._lista = ListaEnlazada()
+
+    def encolar(self, dato):
+        self._lista.insertar_al_final(dato)
+
+    def desencolar(self):
+        if self._lista.esta_vacia():
+            raise ColaVaciaError("La cola esta vacia")
+        return self._lista.quitar_primero()
+
+    def ver_frente(self):
+        if self._lista.esta_vacia():
+            raise ColaVaciaError("La cola esta vacia")
+        return self._lista.ver_primero()
+
+    def esta_vacia(self):
+        return self._lista.esta_vacia()
+
+
+class ColaTurnos:
+    def __init__(self):
+        self._cola = Cola()
+
+    def encolar(self, pokemon):
+        self._cola.encolar(pokemon)
+
+    def siguiente(self):
+        return self._cola.desencolar()
+
+    def proximo(self):
+        return self._cola.ver_frente()
+
+
+# Porque la cola es FIFO A fue el primero en encolarse C fue el ultimo, asi que es el ultimo en salir.

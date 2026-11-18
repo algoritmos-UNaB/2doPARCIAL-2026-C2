@@ -1,5 +1,6 @@
 # Examen — Pokédex
-
+   
+  
 **Cátedra:** 00184 — Algoritmos y Estructuras de Datos  
 **Cuatrimestre:** C2 2026  
 **Tema:** Pokédex  
